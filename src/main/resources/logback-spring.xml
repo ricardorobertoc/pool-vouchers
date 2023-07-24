@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <contextName>pool-de-vouchers</contextName>
+    <springProfile name="default,dev,test,local">
+        <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    </springProfile>
+    <springProfile name="local,homolog,prod,production">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <provider class="com.getnet.pooldevouchers.adapter.configuration.log.MessageAttributeProvider" />
+                    <contextName>
+                        <fieldName>app</fieldName>
+                    </contextName>
+                    <timestamp>
+                        <fieldName>ts</fieldName>
+                        <timeZone>UTC</timeZone>
+                    </timestamp>
+                    <logLevel>
+                        <fieldName>level</fieldName>
+                    </logLevel>
+                    <loggerName>
+                        <fieldName>logger</fieldName>
+                    </loggerName>
+                    <callerData>
+                        <classFieldName>class</classFieldName>
+                        <methodFieldName>method</methodFieldName>
+                        <lineFieldName>line</lineFieldName>
+                        <fileFieldName>file</fileFieldName>
+                    </callerData>
+                    <threadName>
+                        <fieldName>thread</fieldName>
+                    </threadName>
+                    <mdc/>
+                    <arguments>
+                        <includeNonStructuredArguments>false</includeNonStructuredArguments>
+                    </arguments>
+                    <stackTrace>
+                        <fieldName>stack</fieldName>
+                    </stackTrace>
+                    <message>
+                        <fieldName>msg</fieldName>
+                    </message>
+                </providers>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+</configuration>

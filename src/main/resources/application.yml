@@ -1,0 +1,78 @@
+server:
+  port: 8080
+  shutdown: graceful
+  forward-headers-strategy: framework
+  error:
+    whitelabel:
+      enabled: false
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  application:
+    name: pool-de-vouchers
+  main:
+    lazy-initialization: false
+    banner-mode: off
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://getnet:getnet@172.20.0.1:27017/getnet-local-data?authSource=admin&w=majority}
+      auto-index-creation: ${SPRING_DATA_MONGODB_AUTO_INDEX_CREATION:false}
+      database: ${MONGODB_DB:getnet-local-data}
+  cloud:
+    discovery:
+      client:
+        composite-indicator:
+          enabled: false
+  web:
+    resources:
+      add-mappings: false
+  jackson:
+    default-property-inclusion: non_null
+    property-naming-strategy: SNAKE_CASE
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: health
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+      probes:
+        enabled: true
+
+  server:
+
+logging:
+  level:
+    org:
+      springframework:
+        web: ${LOG_LEVEL:DEBUG}
+        kafka: WARN
+        jdbc:
+          core: ${JDBC_LOG_LEVEL:ERROR}
+    com:
+      getnet:
+        pooldevouchers: ${LOG_LEVEL:DEBUG}
+
+springdoc:
+  swagger-ui:
+    base-path: ${APP_BASE_PATH:/}
+    url: ${APP_BASE_PATH:}/v3/api-docs
+    configUrl: ${APP_BASE_PATH:}/v3/api-docs/swagger-config
+    disable-swagger-default-url: true
+
+voucher-properties:
+  time: 72
+
+security:
+  key: somerandomkeywhichislongenoughtoalignwiththejwtspecification

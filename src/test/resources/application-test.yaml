@@ -1,0 +1,18 @@
+spring:
+  main:
+    lazy-initialization: false
+    banner-mode: off
+  data:
+    mongodb:
+      uri: mongodb://getnet:getnet@localhost:27017/getnet-sdk-data?authSource=admin
+      auto-index-creation: true
+      database: facetec-local-data
+
+logging:
+  level:
+    org:
+      springframework:
+        web: ERROR
+    com:
+      getnet:
+        pooldevouches: INFO
